@@ -43,6 +43,8 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Verify Provider Actions canonical route
         run: node --test cloudflare/provider-actions/worker.test.mjs
+      - name: Verify app-link web fallbacks
+        run: node --test tests/app-link-fallback.test.mjs
       - name: Render pinned Provider Actions release
         run: >-
           python3 -m provider_actions render

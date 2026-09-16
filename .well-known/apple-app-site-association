@@ -21,6 +21,34 @@
           {
             "/": "/replace-contact-email",
             "comment": "Confirm a replacement Seasons contact email."
+          },
+          {
+            "/": "/movies/*",
+            "comment": "Open a movie in Seasons."
+          },
+          {
+            "/": "/shows/*/seasons/*/episodes/*",
+            "comment": "Open a show episode in Seasons."
+          },
+          {
+            "/": "/shows/*",
+            "comment": "Open a show in Seasons."
+          },
+          {
+            "/": "/watchlist",
+            "comment": "Open the Seasons watchlist."
+          },
+          {
+            "/": "/plan/actions/*",
+            "comment": "Review a Seasons plan action."
+          },
+          {
+            "/": "/plan",
+            "comment": "Open the current Seasons plan."
+          },
+          {
+            "/": "/subscriptions/*",
+            "comment": "Open a recorded subscription in Seasons."
           }
         ]
       }

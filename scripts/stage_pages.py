@@ -20,12 +20,15 @@ from provider_actions import verify_artifact_directory  # noqa: E402
 
 PUBLIC_FILES = (
     ".nojekyll",
+    "404.html",
     "2phones.png",
     "App Store.svg",
     "CNAME",
     "Play Store.svg",
     "account-link.css",
     "account-link.js",
+    "app-link-fallback.css",
+    "app-link-fallback.mjs",
     "backgroundSite.png",
     "header.png",
     "horizontal.png",
@@ -50,8 +53,10 @@ PUBLIC_DIRECTORIES = (
     ".well-known",
     "delete-account",
     "family-invite",
+    "plan",
     "recover-account",
     "replace-contact-email",
+    "watchlist",
     "verify-contact-email",
 )
 
