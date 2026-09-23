@@ -5,9 +5,10 @@
     ],
     "target": {
       "namespace": "android_app",
-      "package_name": "app.myvstudios.seasons",
+      "package_name": "com.myvstudios.seasons",
       "sha256_cert_fingerprints": [
-        "8D:B2:72:4A:98:7E:27:1E:1E:EB:65:97:90:59:32:13:8D:4F:17:8F:84:15:32:AB:C8:F2:CB:04:17:29:D0:7E"
+        "8D:B2:72:4A:98:7E:27:1E:1E:EB:65:97:90:59:32:13:8D:4F:17:8F:84:15:32:AB:C8:F2:CB:04:17:29:D0:7E",
+        "7B:3F:C3:91:9B:92:8E:C9:01:0C:49:5C:B3:00:B7:9A:4D:3E:1C:0D:2C:56:D4:69:B4:CC:80:D2:0C:29:2E:FF"
       ]
     }
   }
