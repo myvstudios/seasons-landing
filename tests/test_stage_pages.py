@@ -80,6 +80,15 @@ class StagePagesTests(unittest.TestCase):
     def test_ai_agents_help_page_is_public(self) -> None:
         self.assertIn("ai-agents", PUBLIC_DIRECTORIES)
 
+    def test_privacy_policy_is_public_at_its_extensionless_address(self) -> None:
+        # GitHub Pages serves privacypolicy.html at /privacypolicy.
+        self.assertIn("privacypolicy.html", PUBLIC_FILES)
+        repository = Path(__file__).resolve().parents[1]
+        legacy = (repository / "privacy.html").read_text(encoding="utf-8")
+        self.assertIn('content="0; url=/privacypolicy"', legacy)
+        policy = (repository / "privacypolicy.html").read_text(encoding="utf-8")
+        self.assertIn('href="https://getseasons.app/privacypolicy"', policy)
+
     def test_unsafe_output_is_rejected_without_touching_it(self) -> None:
         unsafe_output = self.root / "not-the-site"
         unsafe_output.mkdir()

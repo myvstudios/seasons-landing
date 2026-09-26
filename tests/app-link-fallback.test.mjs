@@ -37,6 +37,7 @@ test("rejects paths that only resemble canonical app links", () => {
     "/feedback/bug",
     "/preferences",
     "/privacy.html",
+    "/privacypolicy",
   ]) {
     assert.equal(resolveSeasonsAppLink(pathname), null, pathname);
   }
