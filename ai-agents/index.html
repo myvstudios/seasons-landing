@@ -14,7 +14,7 @@
         <img src="../seasonslogo.png" alt="Seasons" class="logo">
         <h1>Connect AI assistants to Seasons</h1>
         <p>With Seasons Pro, an AI assistant that supports the Model Context Protocol (MCP), such as Claude or ChatGPT, can read your plan, answer "what if" questions about budgets and watchlists, and, if you allow it, update your watchlist and planning preferences.</p>
-        <p>Seasons never asks you to sign in on the web. You approve every assistant from the Seasons app, and you can revoke it there at any time.</p>
+        <p>You approve every assistant yourself, in the Seasons app or on <a href="https://app.getseasons.app/agents">Seasons Web</a>, and you can revoke it from either at any time. The page an assistant opens never asks for your password.</p>
 
         <h2>Server address</h2>
         <p><code>https://api.getseasons.app/mcp</code></p>
@@ -22,15 +22,14 @@
         <h2>Assistants that sign in with OAuth</h2>
         <ol>
             <li>Add Seasons as a custom connector or MCP server using the address above.</li>
-            <li>When the assistant opens a Seasons page, it shows a pairing code.</li>
-            <li>In the Seasons app, open Settings, select AI Agents, then Enter pairing code.</li>
+            <li>When the assistant opens a Seasons page, choose Sign in to approve in this browser and sign in to Seasons Web. Or, in the Seasons app, open Settings, select AI Agents, then Enter pairing code and type the code the page shows.</li>
             <li>Check the assistant's name and where it returns, choose read-only or read-and-change access, and approve.</li>
         </ol>
-        <p>Only approve a code shown on a page you opened yourself. Seasons will never ask you to share it. Apps that Seasons has registered as partners are marked as verified; any other name is chosen by the app itself.</p>
+        <p>Only approve a connection you started yourself, from a page you opened. Seasons will never ask you to share a pairing code. Apps that Seasons has registered as partners are marked as verified; any other name is chosen by the app itself.</p>
 
         <h2>Assistants that use an access key</h2>
         <ol>
-            <li>In the Seasons app, open Settings, select AI Agents, then Create access key.</li>
+            <li>On <a href="https://app.getseasons.app/agents">Seasons Web</a>, or in the Seasons app under Settings, AI Agents, choose Create access key.</li>
             <li>Copy the key. Seasons shows it only once.</li>
             <li>Configure the assistant to send it as <code>Authorization: Bearer &lt;key&gt;</code>. For Claude Code:
                 <pre><code>claude mcp add --transport http seasons https://api.getseasons.app/mcp --header "Authorization: Bearer &lt;key&gt;"</code></pre>
@@ -43,8 +42,8 @@
             <li>Preview plan changes without changing anything.</li>
             <li>With read-and-change access: apply previewed changes and add or remove watchlist titles.</li>
         </ul>
-        <p>Automated assistants can ask Seasons to notify a web address they run when your plan changes. The Seasons app shows which address each connection notifies; revoking the connection stops it.</p>
-        <p>An assistant can never start, cancel, or pay for a streaming subscription. If your Seasons Pro subscription ends, connected assistants stop working until it is renewed.</p>
+        <p>Automated assistants can ask Seasons to notify a web address they run when your plan changes. The Seasons app and Seasons Web show which address each connection notifies; revoking the connection stops it.</p>
+        <p>Seasons Pro is available in the Seasons app for iPhone and Android. An assistant can never start, cancel, or pay for a streaming subscription. If your Seasons Pro subscription ends, connected assistants stop working until it is renewed.</p>
         <p>See the <a href="../privacy.html">Privacy Policy</a> for how Seasons handles account data.</p>
     </main>
 </body>
