@@ -19,6 +19,7 @@ class AppLinksTests(unittest.TestCase):
         )
 
         details = association["applinks"]["details"]
+        self.assertEqual(len(details), 1)
         self.assertEqual(details[0]["appIDs"], ["HB5HXZR273.com.myvstudios.Seasons"])
         paths = [component["/"] for component in details[0]["components"]]
         self.assertEqual(
@@ -35,6 +36,10 @@ class AppLinksTests(unittest.TestCase):
                 "/plan/actions/*",
                 "/plan",
                 "/subscriptions/*",
+                "/subscriptions",
+                "/search",
+                "/settings",
+                "/feedback",
             ],
         )
 
@@ -44,6 +49,11 @@ class AppLinksTests(unittest.TestCase):
         self.assertIn("app-link-fallback.mjs", PUBLIC_FILES)
         self.assertIn("plan", PUBLIC_DIRECTORIES)
         self.assertIn("watchlist", PUBLIC_DIRECTORIES)
+        for directory in ("subscriptions", "search", "settings", "feedback"):
+            self.assertIn(directory, PUBLIC_DIRECTORIES)
+            page = (REPOSITORY_ROOT / directory / "index.html").read_text(encoding="utf-8")
+            self.assertIn('src="/app-link-fallback.mjs"', page)
+            self.assertIn('href="/app-link-fallback.css"', page)
 
 
 if __name__ == "__main__":
