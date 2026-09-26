@@ -53,9 +53,13 @@ PUBLIC_DIRECTORIES = (
     ".well-known",
     "delete-account",
     "family-invite",
+    "feedback",
     "plan",
     "recover-account",
     "replace-contact-email",
+    "search",
+    "settings",
+    "subscriptions",
     "watchlist",
     "verify-contact-email",
 )

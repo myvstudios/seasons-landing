@@ -1,8 +1,13 @@
 const APP_STORE_URL = "https://apps.apple.com/gb/app/seasons-streaming-companion/id6502302869";
 
+// appPath is the seasons:// form both apps parse; iOS names the settings host "preferences".
 const fixedRoutes = new Map([
-  ["/watchlist", { kind: "watchlist", label: "your watchlist" }],
-  ["/plan", { kind: "plan", label: "your streaming plan" }],
+  ["/watchlist", { kind: "watchlist", label: "your watchlist", appPath: "watchlist" }],
+  ["/plan", { kind: "plan", label: "your streaming plan", appPath: "plan" }],
+  ["/subscriptions", { kind: "subscriptions", label: "your subscriptions", appPath: "subscriptions" }],
+  ["/search", { kind: "search", message: "Continue in Seasons to search shows and movies.", appPath: "search" }],
+  ["/settings", { kind: "settings", label: "your settings", appPath: "preferences" }],
+  ["/feedback", { kind: "feedback", message: "Continue in Seasons to send feedback.", appPath: "feedback" }],
 ]);
 
 const dynamicRoutes = [
@@ -47,7 +52,8 @@ function decodeValues(candidate) {
 }
 
 export function resolveSeasonsAppLink(pathname) {
-  const fixed = fixedRoutes.get(pathname);
+  // GitHub Pages redirects fixed-route directories such as /plan to /plan/.
+  const fixed = fixedRoutes.get(pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname);
   if (fixed) return fixed;
 
   for (const route of dynamicRoutes) {
@@ -55,6 +61,10 @@ export function resolveSeasonsAppLink(pathname) {
     if (match) return decodeValues(route.resolve(match));
   }
   return null;
+}
+
+export function seasonsSchemeURL(route, pathname, search = "") {
+  return `seasons://${route.appPath ?? pathname.slice(1)}${search}`;
 }
 
 function startFallback() {
@@ -73,8 +83,8 @@ function startFallback() {
   }
 
   title.textContent = "Open in Seasons";
-  message.textContent = `Continue in Seasons to view ${route.label}.`;
-  openButton.href = `seasons://${window.location.pathname.slice(1)}${window.location.search}`;
+  message.textContent = route.message ?? `Continue in Seasons to view ${route.label}.`;
+  openButton.href = seasonsSchemeURL(route, window.location.pathname, window.location.search);
 }
 
 if (typeof window !== "undefined" && typeof document !== "undefined") {

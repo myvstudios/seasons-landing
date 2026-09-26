@@ -49,6 +49,22 @@
           {
             "/": "/subscriptions/*",
             "comment": "Open a recorded subscription in Seasons."
+          },
+          {
+            "/": "/subscriptions",
+            "comment": "Open the Seasons subscriptions tab."
+          },
+          {
+            "/": "/search",
+            "comment": "Open search in Seasons."
+          },
+          {
+            "/": "/settings",
+            "comment": "Open Seasons settings."
+          },
+          {
+            "/": "/feedback",
+            "comment": "Send feedback from Seasons."
           }
         ]
       }
