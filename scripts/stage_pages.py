@@ -38,6 +38,7 @@ PUBLIC_FILES = (
     "landing.js",
     "phone.png",
     "privacy.html",
+    "privacypolicy.html",
     "raffleimage.jpg",
     "raffleprivacy.html",
     "raffleterms.html",
