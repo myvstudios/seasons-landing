@@ -26,7 +26,7 @@ For page changes, also preview `_site` (the deployed tree), not the repository r
 
 A push to `main`, and a daily cron, runs `.github/workflows/static.yml`, which rebuilds `_site` and deploys it to GitHub Pages. Pushing to `main` and deploying the Worker are production releases: do either only when the user asks.
 
-- **Allowlist**: only what `PUBLIC_FILES` / `PUBLIC_DIRECTORIES` in `scripts/stage_pages.py` list ships; `campaigns/`, `prototypes/`, and `docs/` stay repo-only. When adding a public file or page, add it there plus a test in `tests/test_stage_pages.py` (like `test_ai_agents_help_page_is_public`).
+- **Allowlist**: only what `PUBLIC_FILES` / `PUBLIC_DIRECTORIES` / `PUBLIC_ALIASES` in `scripts/stage_pages.py` list ships; `campaigns/`, `prototypes/`, and `docs/` stay repo-only. When adding a public file or page, add it there plus a test in `tests/test_stage_pages.py` (like `test_ai_agents_help_page_is_public`). Store-facing pages such as the privacy policy must return the full page at every address a store or app links, with and without a trailing slash: add a `PUBLIC_ALIASES` entry, not a redirect stub.
 - **Trending snapshot**: before staging, CI runs `scripts/refresh_landing_trends.py`, which rewrites the tracked `trending-shows.json` from the live API without committing. If the refresh fails, the deploy uses the checked-in snapshot only while it is under 8 days old, and fails otherwise. To unblock, run the script locally and commit the refreshed file.
 - **Cache busting**: after changing `landing.css` or `landing.js`, bump the `?v=` stamp on both references in `index.html`.
 

@@ -37,7 +37,6 @@ PUBLIC_FILES = (
     "landing-scene.js",
     "landing.js",
     "phone.png",
-    "privacy.html",
     "privacypolicy.html",
     "raffleimage.jpg",
     "raffleprivacy.html",
@@ -65,6 +64,15 @@ PUBLIC_DIRECTORIES = (
     "watchlist",
     "verify-contact-email",
 )
+# Published path -> PUBLIC_FILES source. GitHub Pages serves /name from name.html and
+# /name/ from name/index.html; any other form falls through to the app-link 404 page.
+# Stores and the apps link the policy under all of these, and crawlers read a redirect
+# stub as an empty policy, so each address gets the full page.
+PUBLIC_ALIASES = {
+    "privacy.html": "privacypolicy.html",
+    "privacy/index.html": "privacypolicy.html",
+    "privacypolicy/index.html": "privacypolicy.html",
+}
 
 
 def _validate_allowlisted_sources(repository_root: Path) -> None:
@@ -79,6 +87,11 @@ def _validate_allowlisted_sources(repository_root: Path) -> None:
         for candidate in source.rglob("*"):
             if candidate.is_symlink():
                 raise ValueError(f"allowlisted public directory contains a symlink: {candidate}")
+    for relative_path, source_path in PUBLIC_ALIASES.items():
+        if source_path not in PUBLIC_FILES:
+            raise ValueError(f"public alias source is not an allowlisted public file: {source_path}")
+        if relative_path in PUBLIC_FILES or relative_path.split("/")[0] in PUBLIC_DIRECTORIES:
+            raise ValueError(f"public alias would overwrite an allowlisted path: {relative_path}")
 
 
 def _copy_allowlisted_site(repository_root: Path, output: Path) -> None:
@@ -90,6 +103,10 @@ def _copy_allowlisted_site(repository_root: Path, output: Path) -> None:
     for relative_path in PUBLIC_DIRECTORIES:
         source = repository_root / relative_path
         shutil.copytree(source, output / relative_path)
+    for relative_path, source_path in PUBLIC_ALIASES.items():
+        destination = output / relative_path
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(repository_root / source_path, destination)
 
 
 def stage(

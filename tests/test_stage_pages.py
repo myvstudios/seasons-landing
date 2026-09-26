@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 from provider_actions import render
-from scripts.stage_pages import PUBLIC_DIRECTORIES, PUBLIC_FILES, stage
+from scripts.stage_pages import PUBLIC_ALIASES, PUBLIC_DIRECTORIES, PUBLIC_FILES, stage
 
 
 class StagePagesTests(unittest.TestCase):
@@ -58,7 +58,7 @@ class StagePagesTests(unittest.TestCase):
 
         stage(output, self.artifact, self.release, repository_root=self.repository)
 
-        expected = set(PUBLIC_FILES) | {
+        expected = set(PUBLIC_FILES) | set(PUBLIC_ALIASES) | {
             f"provider-actions/{path}" for path in render(self.release).files
         }
         for relative_path in PUBLIC_DIRECTORIES:
@@ -73,6 +73,8 @@ class StagePagesTests(unittest.TestCase):
         self.assertFalse((output / "AGENTS.md").exists())
         for relative_path in PUBLIC_FILES:
             self.assertEqual((output / relative_path).read_bytes(), (self.repository / relative_path).read_bytes())
+        for relative_path, source_path in PUBLIC_ALIASES.items():
+            self.assertEqual((output / relative_path).read_bytes(), (self.repository / source_path).read_bytes())
 
     def test_account_deletion_request_page_is_public(self) -> None:
         self.assertIn("delete-account", PUBLIC_DIRECTORIES)
@@ -80,13 +82,26 @@ class StagePagesTests(unittest.TestCase):
     def test_ai_agents_help_page_is_public(self) -> None:
         self.assertIn("ai-agents", PUBLIC_DIRECTORIES)
 
-    def test_privacy_policy_is_public_at_its_extensionless_address(self) -> None:
-        # GitHub Pages serves privacypolicy.html at /privacypolicy.
-        self.assertIn("privacypolicy.html", PUBLIC_FILES)
-        repository = Path(__file__).resolve().parents[1]
-        legacy = (repository / "privacy.html").read_text(encoding="utf-8")
-        self.assertIn('content="0; url=/privacypolicy"', legacy)
-        policy = (repository / "privacypolicy.html").read_text(encoding="utf-8")
+    def test_every_privacy_policy_address_serves_the_full_policy(self) -> None:
+        # A missing form falls through to the app-link 404 page, which stores reject as
+        # a privacy policy without content.
+        output = self.repository / "_site"
+
+        stage(output, self.artifact, self.release, repository_root=self.repository)
+
+        policy = (self.repository / "privacypolicy.html").read_bytes()
+        for relative_path in (
+            "privacypolicy.html",
+            "privacypolicy/index.html",
+            "privacy.html",
+            "privacy/index.html",
+        ):
+            self.assertEqual((output / relative_path).read_bytes(), policy, relative_path)
+
+    def test_privacy_policy_covers_what_stores_require(self) -> None:
+        policy = (Path(__file__).resolve().parents[1] / "privacypolicy.html").read_text(encoding="utf-8")
+        for section in ("collect", "use", "share", "retention", "security", "deletion", "contact"):
+            self.assertIn(f'<h2 id="{section}">', policy)
         self.assertIn('href="https://getseasons.app/privacypolicy"', policy)
 
     def test_unsafe_output_is_rejected_without_touching_it(self) -> None:
