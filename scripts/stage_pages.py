@@ -51,6 +51,7 @@ PUBLIC_FILES = (
 )
 PUBLIC_DIRECTORIES = (
     ".well-known",
+    "ai-agents",
     "delete-account",
     "family-invite",
     "plan",

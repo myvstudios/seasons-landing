@@ -77,6 +77,9 @@ class StagePagesTests(unittest.TestCase):
     def test_account_deletion_request_page_is_public(self) -> None:
         self.assertIn("delete-account", PUBLIC_DIRECTORIES)
 
+    def test_ai_agents_help_page_is_public(self) -> None:
+        self.assertIn("ai-agents", PUBLIC_DIRECTORIES)
+
     def test_unsafe_output_is_rejected_without_touching_it(self) -> None:
         unsafe_output = self.root / "not-the-site"
         unsafe_output.mkdir()
