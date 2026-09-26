@@ -100,8 +100,10 @@ class StagePagesTests(unittest.TestCase):
 
     def test_privacy_policy_covers_what_stores_require(self) -> None:
         policy = (Path(__file__).resolve().parents[1] / "privacypolicy.html").read_text(encoding="utf-8")
-        for section in ("collect", "use", "share", "retention", "security", "deletion", "contact"):
+        for section in ("collect", "use", "google", "share", "retention", "security", "deletion", "contact"):
             self.assertIn(f'<h2 id="{section}">', policy)
+        # Google OAuth verification requires the Limited Use disclosure.
+        self.assertIn("including the Limited Use requirements", policy)
         self.assertIn('href="https://getseasons.app/privacypolicy"', policy)
 
     def test_unsafe_output_is_rejected_without_touching_it(self) -> None:
